@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 320" width="100%" height="100%">
+  <defs>
+    <!-- ============ FONTS ============ -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Mono:wght@400;700&display=swap');
+      
+      /* Base container */
+      .bg { fill: #0f0c09; }
+      
+      /* Glowing Grid (Chess/Data influence) */
+      .grid-line { stroke: #9f814f; stroke-width: 0.5; opacity: 0.15; }
+      .grid-line-strong { stroke: #d3b976; stroke-width: 1; opacity: 0.08; }
+
+      /* ============ ANIMATIONS ============ */
+      
+      /* 1. Breathing Gold Glow */
+      @keyframes breathe {
+        0% { filter: drop-shadow(0 0 10px #e29350) drop-shadow(0 0 30px #b67c33); opacity: 0.9; }
+        50% { filter: drop-shadow(0 0 30px #e29350) drop-shadow(0 0 80px #a88b00); opacity: 1; }
+        100% { filter: drop-shadow(0 0 10px #e29350) drop-shadow(0 0 30px #b67c33); opacity: 0.9; }
+      }
+
+      /* 2. Sophisticated Glitch (RGB Split + Shift) */
+      @keyframes glitch-split {
+        0% { transform: translate(0, 0); opacity: 1; }
+        15% { transform: translate(-6px, 3px); opacity: 0.8; clip-path: inset(30% 0 60% 0); }
+        16% { transform: translate(6px, -3px); opacity: 0.6; clip-path: inset(60% 0 20% 0); }
+        17% { transform: translate(-3px, 6px); opacity: 0.9; clip-path: inset(10% 0 80% 0); }
+        18% { transform: translate(0, 0); opacity: 1; clip-path: inset(0 0 0 0); }
+        85% { transform: translate(0, 0); opacity: 1; }
+        100% { transform: translate(0, 0); opacity: 1; }
+      }
+
+      @keyframes glitch-split-overlay {
+        0% { opacity: 0; }
+        15% { opacity: 0.5; transform: translate(8px, -4px); }
+        16% { opacity: 0; }
+        85% { opacity: 0; }
+        100% { opacity: 0; }
+      }
+
+      /* 3. Subtle Chromatic Aberration (Floating) */
+      @keyframes float-chromatic {
+        0% { transform: translate(0, 0); }
+        33% { transform: translate(3px, -2px); }
+        66% { transform: translate(-3px, 4px); }
+        100% { transform: translate(0, 0); }
+      }
+
+      /* 4. Blinking Terminal Cursor */
+      @keyframes blink-cursor {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+
+      /* 5. Particles / Data Stream floating */
+      @keyframes float-particle {
+        0% { transform: translateY(0) scale(0.8); opacity: 0; }
+        20% { opacity: 0.6; }
+        80% { opacity: 0.6; }
+        100% { transform: translateY(-40px) scale(1.2); opacity: 0; }
+      }
+
+      /* 6. Knight Chess Piece subtle rotation */
+      @keyframes chess-rotate {
+        0% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(4deg) scale(1.05); }
+        100% { transform: rotate(0deg) scale(1); }
+      }
+
+      /* ============ TEXT STYLING ============ */
+      .main-title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-style: italic;
+        font-size: 82px;
+        fill: #e29350;
+        text-anchor: middle;
+        dominant-baseline: central;
+        letter-spacing: 8px;
+      }
+      
+      .sub-title {
+        font-family: 'Space Mono', monospace;
+        font-weight: 400;
+        font-size: 16px;
+        fill: #d3b976;
+        text-anchor: middle;
+        dominant-baseline: central;
+        letter-spacing: 6px;
+      }
+      
+      .cursor {
+        font-family: 'Space Mono', monospace;
+        font-weight: 400;
+        font-size: 18px;
+        fill: #e29350;
+        text-anchor: middle;
+        dominant-baseline: central;
+        animation: blink-cursor 0.9s step-end infinite;
+      }
+
+      /* Metallic gradient for the main text */
+      .gold-metallic {
+        fill: url(#goldGrad);
+      }
+      
+      .glitch-layer-1 { fill: #b67c33; }
+      .glitch-layer-2 { fill: #a88b00; }
+    </style>
+
+    <!-- ============ GRADIENTS ============ -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e29350" />
+      <stop offset="35%" stop-color="#f3c682" />
+      <stop offset="50%" stop-color="#e29350" />
+      <stop offset="75%" stop-color="#b67c33" />
+      <stop offset="100%" stop-color="#9f814f" />
+    </linearGradient>
+
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e29350" stop-opacity="0.8" />
+      <stop offset="30%" stop-color="#a88b00" stop-opacity="0.4" />
+      <stop offset="70%" stop-color="#a88b00" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#e29350" stop-opacity="0.8" />
+    </linearGradient>
+
+    <!-- ============ GLITCH FILTERS ============ -->
+    <filter id="displacement" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="3" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+
+    <filter id="drop-glow">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- ============ CLIP PATHS FOR GLITCH ============ -->
+    <clipPath id="clip-top">
+      <rect y="0" width="1000" height="110" />
+    </clipPath>
+    <clipPath id="clip-bottom">
+      <rect y="110" width="1000" height="110" />
+    </clipPath>
+    <clipPath id="clip-mid">
+      <rect y="220" width="1000" height="100" />
+    </clipPath>
+
+    <!-- ============ CHESS KNIGHT PATH ============ -->
+    <path id="knight" d="M 0,-20 C -10,-18 -15,-8 -12,0 L -8,6 L -14,8 L -14,14 L 10,14 L 10,8 L 4,6 L 6,-2 C 8,-10 4,-18 0,-20 Z M -4,-8 C -2,-10 2,-10 4,-8 C 6,-6 6,-2 4,0 C 2,2 -2,2 -4,0 C -6,-2 -6,-6 -4,-8 Z" />
+  </defs>
+
+  <!-- ===== BACKGROUND ===== -->
+  <rect class="bg" width="1000" height="320" rx="16" />
+  
+  <!-- ===== SOPHISTICATED GRID (Chessboard abstraction) ===== -->
+  <!-- Vertical Lines -->
+  <line class="grid-line" x1="80" y1="0" x2="80" y2="320" />
+  <line class="grid-line" x1="200" y1="0" x2="200" y2="320" />
+  <line class="grid-line-strong" x1="320" y1="0" x2="320" y2="320" />
+  <line class="grid-line" x1="440" y1="0" x2="440" y2="320" />
+  <line class="grid-line" x1="560" y1="0" x2="560" y2="320" />
+  <line class="grid-line-strong" x1="680" y1="0" x2="680" y2="320" />
+  <line class="grid-line" x1="800" y1="0" x2="800" y2="320" />
+  <line class="grid-line" x1="920" y1="0" x2="920" y2="320" />
+  
+  <!-- Horizontal Lines -->
+  <line class="grid-line" x1="0" y1="40" x2="1000" y2="40" />
+  <line class="grid-line-strong" x1="0" y1="160" x2="1000" y2="160" />
+  <line class="grid-line" x1="0" y1="280" x2="1000" y2="280" />
+
+  <!-- ===== CORNER BRACKETS (Architectural / Blueprint vibe) ===== -->
+  <g stroke="url(#borderGrad)" stroke-width="2.5" fill="none" opacity="0.7">
+    <!-- Top Left -->
+    <path d="M 24 38 L 24 24 L 38 24" />
+    <!-- Top Right -->
+    <path d="M 976 24 L 962 24 L 962 38" />
+    <!-- Bottom Left -->
+    <path d="M 38 296 L 24 296 L 24 282" />
+    <!-- Bottom Right -->
+    <path d="M 976 282 L 976 296 L 962 296" />
+  </g>
+
+  <!-- ===== FLOATING CHESS KNIGHT (Left side accent) ===== -->
+  <g transform="translate(140, 160) scale(3.5)" opacity="0.6" filter="url(#drop-glow)">
+    <use href="#knight" fill="url(#goldGrad)" />
+    <animateTransform attributeName="transform" type="translate" values="140,160; 140,155; 140,160" dur="6s" repeatCount="indefinite" />
+  </g>
+
+  <!-- ===== FLOATING DECORATIVE DOTS (Data particles) ===== -->
+  <circle cx="850" cy="80" r="3" fill="#e29350" opacity="0.6">
+    <animate attributeName="cy" values="80; 40; 80" dur="5s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.6; 0.1; 0.6" dur="5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="790" cy="240" r="2" fill="#b67c33" opacity="0.5">
+    <animate attributeName="cy" values="240; 200; 240" dur="7s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="870" cy="210" r="2.5" fill="#d3b976" opacity="0.4">
+    <animate attributeName="cy" values="210; 170; 210" dur="4s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="140" cy="260" r="1.5" fill="#a88b00" opacity="0.5">
+    <animate attributeName="cy" values="260; 230; 260" dur="6.5s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- ===== MAIN GLITCH TEXT: "VNA-07" ===== -->
+  
+  <!-- LAYER 1: The GOLD METALLIC base (with breathing glow) -->
+  <text class="main-title gold-metallic" x="500" y="145" style="animation: breathe 4s ease-in-out infinite;">VNA-07</text>
+  
+  <!-- LAYER 2: GLITCH OVERLAY (Olive / Mustard shift) -->
+  <g style="animation: glitch-split-overlay 3.8s infinite linear;">
+    <text class="main-title glitch-layer-1" x="500" y="145" transform="translate(-8, 4)" clip-path="url(#clip-top)">VNA-07</text>
+    <text class="main-title glitch-layer-2" x="500" y="145" transform="translate(8, -4)" clip-path="url(#clip-bottom)">VNA-07</text>
+    <text class="main-title gold-metallic" x="500" y="145" transform="translate(4, 8)" clip-path="url(#clip-mid)" opacity="0.5">VNA-07</text>
+  </g>
+
+  <!-- LAYER 3: The DISPLACEMENT GLITCH (jitter effect) -->
+  <text class="main-title gold-metallic" x="500" y="145" style="animation: glitch-split 3.8s infinite linear; filter: url(#displacement);" opacity="0.85">VNA-07</text>
+
+  <!-- ===== SUBTITLE with TYPEWRITER VIBE ===== -->
+  <!-- Static text -->
+  <text class="sub-title" x="500" y="205">SOFTWARE ENGINEER · RHODES UNI · BSC</text>
+  
+  <!-- Blinking cursor (simulates terminal active state) -->
+  <text class="cursor" x="736" y="205">▌</text>
+
+  <!-- ===== BOTTOM DIVIDER / STATUS BAR ===== -->
+  <g opacity="0.3">
+    <line x1="100" y1="275" x2="900" y2="275" stroke="#9f814f" stroke-width="0.5" />
+    <circle cx="100" cy="275" r="2" fill="#e29350" />
+    <circle cx="900" cy="275" r="2" fill="#e29350" />
+  </g>
+
+  <!-- Bottom left "status" text -->
+  <text x="110" y="292" font-family="'Space Mono', monospace" font-size="9" fill="#9f814f" letter-spacing="2" opacity="0.6">
+    ● SYSTEM: READY
+  </text>
+  
+  <!-- Bottom right "version" text -->
+  <text x="880" y="292" font-family="'Space Mono', monospace" font-size="9" fill="#9f814f" letter-spacing="2" opacity="0.6">
+    v2.0 · DARK MATTER EDITION
+  </text>
+  
+  <!-- ===== SUBTLE SCANLINE OVERLAY (Retro CRT texture) ===== -->
+  <g opacity="0.04">
+    <line x1="0" y1="50" x2="1000" y2="50" stroke="#d3b976" stroke-width="1" />
+    <line x1="0" y1="100" x2="1000" y2="100" stroke="#d3b976" stroke-width="1" />
+    <line x1="0" y1="150" x2="1000" y2="150" stroke="#d3b976" stroke-width="1" />
+    <line x1="0" y1="200" x2="1000" y2="200" stroke="#d3b976" stroke-width="1" />
+    <line x1="0" y1="250" x2="1000" y2="250" stroke="#d3b976" stroke-width="1" />
+    <line x1="0" y1="300" x2="1000" y2="300" stroke="#d3b976" stroke-width="1" />
+  </g>
+</svg>
