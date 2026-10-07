@@ -35,7 +35,7 @@ I build software that sits at the messy intersection of **data intelligence**, *
 - 🎓 **2nd Year BSc** | Information Systems @ Rhodes University
 - 🏆 **2nd Place** – FNB DataQuest 2026 (Credit Risk Intelligence)
 - 🔐 Building secure, compliant systems (because I like sleeping at night)
-- ♟️ I coded my ego into a chess AI. **Think you can beat me?** [Play against "V" here](https://vna-07.github.io).
+- ♟️ I coded my ego into a chess AI. **Think you can beat me?** [Play against "V" here](https://vna-07.github.io/v-chess/).
 
 ---
 
